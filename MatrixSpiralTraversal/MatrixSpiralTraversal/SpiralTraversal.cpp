@@ -68,6 +68,7 @@ template <size_t nRows, size_t nCols> void spiralTraversalStatic(int(&array2D)[n
 	size_t rowIdx = 0;
 	size_t colIdx = 0;
 	Direction direction = RIGHT;  // Set initial direction
+	bool newDirection = false;
 	
 	printf("--- Spiral Traversal: Static Array ---\nOriginal Array:\n");
 
@@ -83,9 +84,10 @@ template <size_t nRows, size_t nCols> void spiralTraversalStatic(int(&array2D)[n
 	printf("\nSpiral Traversal:\n");
 	while ((left < right) || (top < bottom))
 	{
-		printf("%d ", array2D[rowIdx][colIdx]); // Print current location value 
-		//printf("[%d][%d]: %d - Direction: %d\n", rowIdx, colIdx, array2D[rowIdx][colIdx], direction);
-		//printf("left: %d; right: %d; top: %d; bottom: %d\n", left, right, top, bottom);
+		if (newDirection == false) {
+			printf("%d ", array2D[rowIdx][colIdx]); // Print current location value 
+		}
+		newDirection = false;
 
 		switch (direction)  // Move to next cell
 		{
@@ -96,6 +98,7 @@ template <size_t nRows, size_t nCols> void spiralTraversalStatic(int(&array2D)[n
 			else {
 				direction = UP;
 				bottom--;
+				newDirection = true;
 			}
 			break;
 		case RIGHT:
@@ -105,6 +108,7 @@ template <size_t nRows, size_t nCols> void spiralTraversalStatic(int(&array2D)[n
 			else {
 				direction = DOWN;
 				top++;
+				newDirection = true;
 			}
 			break;
 		case UP:
@@ -114,6 +118,7 @@ template <size_t nRows, size_t nCols> void spiralTraversalStatic(int(&array2D)[n
 			else {
 				direction = RIGHT;
 				left++;
+				newDirection = true;
 			}
 			break;
 		case DOWN:
@@ -123,6 +128,7 @@ template <size_t nRows, size_t nCols> void spiralTraversalStatic(int(&array2D)[n
 			else {
 				direction = LEFT;
 				right--;
+				newDirection = true;
 			}
 			break;
 		default:
