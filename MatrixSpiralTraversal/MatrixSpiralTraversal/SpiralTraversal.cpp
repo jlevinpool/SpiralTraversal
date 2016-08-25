@@ -14,6 +14,9 @@
 #define ROWS 3
 #define COLS 4
 
+/* Enumerations */
+enum Direction { LEFT, RIGHT, UP, DOWN };
+
 /* Function Prototypes */
 template <size_t nRows, size_t nCols> void spiralTraversalStatic(int (&array2D)[nRows][nCols]);
 void spiralTraversalDynamic(int *array2D, size_t nRows, size_t nCols);
@@ -58,17 +61,78 @@ int main() {
 ** Return: (none)
 **************************************************************************************/
 template <size_t nRows, size_t nCols> void spiralTraversalStatic(int(&array2D)[nRows][nCols]) {
+	size_t left = 0;
+	size_t right = nCols - 1;
+	size_t top = 0;
+	size_t bottom = nRows - 1;
+	size_t rowIdx = 0;
+	size_t colIdx = 0;
+	Direction direction = RIGHT;  // Set initial direction
+	
 	printf("--- Spiral Traversal: Static Array ---\nOriginal Array:\n");
 
+	/* Print Original Array */
 	for (size_t i = 0; i < nRows; i++) {
 		for (size_t j = 0; j < nCols; j++) {
-			//std::cout << array2D[i][j] << " ";  // Print array contents
 			printf("%*d", 4, array2D[i][j]);
 		}
 		printf("\n");
 	}
 
-	printf("\n");
+	/* Run Spiral Traversal */
+	printf("\nSpiral Traversal:\n");
+	while ((left < right) || (top < bottom))
+	{
+		printf("%d ", array2D[rowIdx][colIdx]); // Print current location value 
+		//printf("[%d][%d]: %d - Direction: %d\n", rowIdx, colIdx, array2D[rowIdx][colIdx], direction);
+		//printf("left: %d; right: %d; top: %d; bottom: %d\n", left, right, top, bottom);
+
+		switch (direction)  // Move to next cell
+		{
+		case LEFT:
+			if (colIdx > left) {
+				colIdx--;
+			}
+			else {
+				direction = UP;
+				bottom--;
+			}
+			break;
+		case RIGHT:
+			if (colIdx < right) {
+				colIdx++;
+			}
+			else {
+				direction = DOWN;
+				top++;
+			}
+			break;
+		case UP:
+			if (rowIdx > top) {
+				rowIdx--;
+			}
+			else {
+				direction = RIGHT;
+				left++;
+			}
+			break;
+		case DOWN:
+			if (rowIdx < bottom) {
+				rowIdx++;
+			}
+			else {
+				direction = LEFT;
+				right--;
+			}
+			break;
+		default:
+			std::cerr << "Error: Invalid Direction!" << std::endl;
+			return;
+			break;
+		}
+	}
+
+	printf("\n\n");
 }
 
 /**************************************************************************************
