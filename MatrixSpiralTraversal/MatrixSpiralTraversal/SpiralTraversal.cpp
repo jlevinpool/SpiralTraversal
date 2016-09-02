@@ -148,13 +148,81 @@ template <size_t nRows, size_t nCols> void spiralTraversalStatic(int(&array2D)[n
 ** Return: (none)
 **************************************************************************************/
 void spiralTraversalDynamic(int *array2D, size_t nRows, size_t nCols) {
+	size_t left = 0;
+	size_t right = nCols - 1;
+	size_t top = 0;
+	size_t bottom = nRows - 1;
+	size_t rowIdx = 0;
+	size_t colIdx = 0;
+	Direction direction = RIGHT;  // Set initial direction
+	bool newDirection = false;
+	
 	printf("--- Spiral Traversal: Dynamic Array ---\nOriginal Array:\n");
 
+	/* Print Original Array */
 	for (size_t i = 0; i < nRows; i++) {
 		for (size_t j = 0; j < nCols; j++) {
 			printf("%*d", 4, array2D[nCols * i + j]);  // Print array contents
 		}
 		printf("\n");
+	}
+
+	/* Run Spiral Traversal */
+	printf("\nSpiral Traversal:\n");
+	while ((left < right) || (top < bottom))
+	{
+		if (newDirection == false) {
+			printf("%d ", array2D[nCols * rowIdx + colIdx]); // Print current location value 
+		}
+		newDirection = false;
+
+		switch (direction)  // Move to next cell
+		{
+		case LEFT:
+			if (colIdx > left) {
+				colIdx--;
+			}
+			else {
+				direction = UP;
+				bottom--;
+				newDirection = true;
+			}
+			break;
+		case RIGHT:
+			if (colIdx < right) {
+				colIdx++;
+			}
+			else {
+				direction = DOWN;
+				top++;
+				newDirection = true;
+			}
+			break;
+		case UP:
+			if (rowIdx > top) {
+				rowIdx--;
+			}
+			else {
+				direction = RIGHT;
+				left++;
+				newDirection = true;
+			}
+			break;
+		case DOWN:
+			if (rowIdx < bottom) {
+				rowIdx++;
+			}
+			else {
+				direction = LEFT;
+				right--;
+				newDirection = true;
+			}
+			break;
+		default:
+			std::cerr << "Error: Invalid Direction!" << std::endl;
+			return;
+			break;
+		}
 	}
 
 	printf("\n");
