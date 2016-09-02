@@ -11,8 +11,10 @@
 #include <iostream>
 #include <stdio.h>
 
-#define ROWS 3
-#define COLS 4
+#define STATIC_ROWS 3
+#define STATIC_COLS 4
+#define DYNAMIC_ROWS 5
+#define DYNAMIC_COLS 4
 
 /* Enumerations */
 enum Direction { LEFT, RIGHT, UP, DOWN };
@@ -22,14 +24,14 @@ template <size_t nRows, size_t nCols> void spiralTraversalStatic(int (&array2D)[
 void spiralTraversalDynamic(int *array2D, size_t nRows, size_t nCols);
 
 int main() {
-	int arrStatic[ROWS][COLS] = { {0, 1, 2, 3}, {4, 5, 6, 7}, {8, 9, 10, 11} };  // Statically Declared Array
+	int arrStatic[STATIC_ROWS][STATIC_COLS] = { {0, 1, 2, 3}, {4, 5, 6, 7}, {8, 9, 10, 11} };  // Statically Declared Array
 	int *arrDynamic;  // Dynamically Created Array (Flattened 2D array)
 	int value = 0;  // Value for Dynamic Array
 
 	/* Allocate Dynamic Array */
 	// Reference: http://www.cplusplus.com/reference/new/bad_alloc/
 	try {
-		arrDynamic = new int[ROWS * COLS];  // Flattened 2D Array: Indexing Array[r][c] = Flat[COL * r + c]
+		arrDynamic = new int[DYNAMIC_ROWS * DYNAMIC_COLS];  // Flattened 2D Array: Indexing Array[r][c] = Flat[COL * r + c]
 	}
 	catch (std::bad_alloc &ba) {
 		std::cerr << "Error: Dynamic Array - " << ba.what() << '\n';
@@ -37,16 +39,16 @@ int main() {
 	}
 
 	/* Populate Dynamic Array*/
-	for (size_t i = 0; i < ROWS; i++) {
-		for (size_t j = 0; j < COLS; j++) {
-			arrDynamic[COLS * i + j] = value;  // Populate cell with value
+	for (size_t i = 0; i < DYNAMIC_ROWS; i++) {
+		for (size_t j = 0; j < DYNAMIC_COLS; j++) {
+			arrDynamic[DYNAMIC_COLS * i + j] = value;  // Populate cell with value
 			value++;
 		}
 	}
 
 	/* Run Spiral Traversals */
 	spiralTraversalStatic(arrStatic);
-	spiralTraversalDynamic(arrDynamic, ROWS, COLS);
+	spiralTraversalDynamic(arrDynamic, DYNAMIC_ROWS, DYNAMIC_COLS);
 
 	/* Clean up Dynamic Array */
 	delete[] arrDynamic;
